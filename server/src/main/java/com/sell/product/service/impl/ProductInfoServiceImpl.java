@@ -1,7 +1,5 @@
 package com.sell.product.service.impl;
 
-import com.alibaba.druid.support.json.JSONUtils;
-import com.rabbitmq.tools.json.JSONUtil;
 import com.sell.common.dto.DecreaseStockDTO;
 import com.sell.common.dto.ProductInfoDTO;
 import com.sell.common.enums.ProductStatusEnum;
@@ -17,6 +15,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -43,7 +42,10 @@ public class ProductInfoServiceImpl implements ProductInfoService {
         ProductInfoExample example = new ProductInfoExample();
         example.createCriteria().andProductStatusEqualTo(ProductStatusEnum.UP.getCode().byteValue());
         List<ProductInfo> productInfoList = productInfoMapper.selectByExample(example);
-        return productInfoList;
+        if (!CollectionUtils.isEmpty(productInfoList)) {
+            return productInfoList;
+        }
+        return null;
     }
 
     @Override
@@ -51,7 +53,10 @@ public class ProductInfoServiceImpl implements ProductInfoService {
         ProductInfoExample example = new ProductInfoExample();
         example.createCriteria().andProductIdIn(productIdList);
         List<ProductInfo> productInfoList = productInfoMapper.selectByExample(example);
-        return productInfoList;
+        if (!CollectionUtils.isEmpty(productInfoList)) {
+            return productInfoList;
+        }
+        return null;
     }
 
     @Override
