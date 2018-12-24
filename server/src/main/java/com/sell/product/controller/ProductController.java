@@ -72,6 +72,11 @@ public class ProductController {
      */
     @PostMapping("/listForOrder")
     public List<ProductInfo> listForOrder(@RequestBody List<String> productIdList) {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         List<ProductInfo> productInfoList = productInfoService.selectList(productIdList);
         return productInfoList;
     }
